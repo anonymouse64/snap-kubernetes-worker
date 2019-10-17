@@ -3,5 +3,6 @@
 --root-dir=${SNAP_COMMON}/kubelet/
 --cert-dir=${SNAP_COMMON}/certs/
 --cni-bin-dir=${SNAP}/bin/cni/
---container-runtime=remote
---container-runtime-endpoint=unix:///${SNAP_COMMON}/run/containerd.sock
+--container-runtime=docker
+--docker-endpoint=unix://$SNAP_DATA/run/docker.sock
+--container-runtime-endpoint=unix://$SNAP_DATA/run/dockershim.sock
