@@ -6,3 +6,4 @@
 --container-runtime=docker
 --docker-endpoint=unix://$SNAP_DATA/run/docker.sock
 --container-runtime-endpoint=unix://$SNAP_DATA/run/dockershim.sock
+--cloud-provider aws
