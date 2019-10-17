@@ -5,7 +5,6 @@ summary: A complete Kubernetes worker
 description: |
   A fully functional Kubernetes worker in a snap.  This includes kubelet,
   kubectl, containerd and ctr.
-
 grade: devel
 confinement: strict
 
@@ -136,9 +135,7 @@ parts:
       set -eu
       . ../../../parts/setup/build/common.sh
       . ../../../parts/setup/build/lock.sh
-
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin
-
       go get github.com/opencontainers/runc
       (
         cd $GOPATH/src/github.com/opencontainers/runc
@@ -209,6 +206,7 @@ parts:
       - make
       - rsync
       - pkg-config
+      - libcurl4-openssl-dev
     stage-packages:
       - conntrack
       - ipset
@@ -216,9 +214,7 @@ parts:
       set -eu
       . ../../../parts/setup/build/common.sh
       . ../../../parts/setup/build/lock.sh
-
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin
-
       go get -d k8s.io/kubernetes || true
       (
         cd $GOPATH/src/k8s.io/kubernetes
@@ -241,9 +237,7 @@ parts:
       set -eu
       . ../../../parts/setup/build/common.sh
       . ../../../parts/setup/build/lock.sh
-
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin/cni
-
       go get -d github.com/containernetworking/plugins || true
       (
         cd $GOPATH/src/github.com/containernetworking/plugins
