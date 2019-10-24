@@ -164,39 +164,10 @@ parts:
       - -sbin/xtables-multi
       - -sbin/iptables*
       - -lib/xtables
-  docker:
-    after:
-      - setup
-      - runc
-    plugin: nil
-    stage-snaps:
-      - docker
-    organize:
-      go/src/github.com/containerd/containerd/bin/*: bin/
-      containerd/install/bin/*: bin/
-    stage-packages:
-      - libnss-myhostname
-      - libnss-resolve
-      - libnss-mymachines
-      - conntrack
-      - aufs-tools
-      - gawk
-      - sed
-      - socat
-      - grep
-      - libssl1.0.0
-      - coreutils
-      - hostname
-      - diffutils
-    stage:
-      - -sbin/xtables-multi
-      - -sbin/iptables*
-      - -lib/xtables
   kubernetes:
     after:
       - setup
       - runc
-      - docker
     plugin: nil
     build-snaps:
       - go/1.12/stable
@@ -206,7 +177,6 @@ parts:
       - make
       - rsync
       - pkg-config
-      - libcurl4-openssl-dev
     stage-packages:
       - conntrack
       - ipset
@@ -272,3 +242,9 @@ parts:
         https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
       chmod +x aws-iam-authenticator
       cp aws-iam-authenticator $SNAPCRAFT_PART_INSTALL/bin/
+  docker:
+    after:
+      - aws-iam-authenticator
+    plugin: nil
+    stage-snaps:
+      - docker
