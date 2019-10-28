@@ -41,6 +41,8 @@ hooks:
       - k8s-kubelet
 
 layout:
+  /etc/docker:
+    bind: $SNAP_DATA/etc/docker
   /var/lib/dockershim:
     bind: $SNAP_DATA/lib/dockershim
   /opt/cni/bin:
