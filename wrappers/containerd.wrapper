@@ -18,6 +18,10 @@ else
   RUNTIME="runc"
 fi
 
+# force containers to run under the containerd-profile
+SNAPD_CONTAINERD_FORCE_AA_LABEL=cri-containerd.apparmor.d
+export SNAPD_CONTAINERD_FORCE_AA_LABEL
+
 sed 's@${SNAP}@'"${SNAP}"'@g;s@${SNAP_DATA}@'"${SNAP_DATA}"'@g;s@${SNAP_COMMON}@'"${SNAP_COMMON}"'@g;s@${RUNTIME}@'"${RUNTIME}"'@g' ${SNAP}/containerd-template.toml > ${SNAP_DATA}/containerd.toml
 
 # This is really the only way I could find to get the args passed in correctly.

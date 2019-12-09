@@ -1,0 +1,19 @@
+diff --git a/vendor/github.com/containerd/cri/pkg/server/container_create.go b/vendor/github.com/containerd/cri/pkg/server/container_create.go
+index a477245b..9dfce934 100644
+--- a/vendor/github.com/containerd/cri/pkg/server/container_create.go
++++ b/vendor/github.com/containerd/cri/pkg/server/container_create.go
+@@ -237,8 +237,13 @@ func (c *criService) CreateContainer(ctx context.Context, r *runtime.CreateConta
+ 	}
+ 	specOpts = append(specOpts, customopts.WithAdditionalGIDs(userstr))
+ 
++	aaSpec := securityContext.GetApparmorProfile()
++	if forcedAALabel, ok := os.LookupEnv("SNAPD_CONTAINERD_FORCE_AA_LABEL"); ok {
++		aaSpec = forcedAALabel
++	}
++
+ 	apparmorSpecOpts, err := generateApparmorSpecOpts(
+-		securityContext.GetApparmorProfile(),
++		aaSpec,
+ 		securityContext.GetPrivileged(),
+ 		c.apparmorEnabled)
+ 	if err != nil {

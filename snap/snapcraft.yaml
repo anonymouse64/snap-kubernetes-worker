@@ -111,6 +111,11 @@ parts:
       - wrappers
     source: build/
     plugin: dump
+  patches:
+    plugin: dump
+    source: patches/
+    # don't stage any of the patches into the snap
+    prime: ["-*"]
   wrappers:
     source: wrappers/
     plugin: dump
@@ -174,6 +179,7 @@ parts:
     after:
       - setup
       - runc
+      - patches
     plugin: nil
     build-snaps:
       - go/1.12/stable
@@ -195,6 +201,12 @@ parts:
       (
         cd $GOPATH/src/github.com/containerd/containerd
         git checkout ${CONTAINERD_COMMIT}
+        # patch containerd to use forced apparmor label for all containers
+        for patch in "$SNAPCRAFT_STAGE"/containerd-patches/*.patch; do
+          echo "Applying $(basename "$patch") ..."
+          git apply --ignore-space-change --ignore-whitespace "$patch"
+          echo
+        done
         make
       )
       cp $GOPATH/src/github.com/containerd/containerd/bin/* $SNAPCRAFT_PART_INSTALL/bin/
